@@ -1,15 +1,13 @@
 package com.romanosadchyi.labs.user_service.controller;
 
+import com.romanosadchyi.labs.user_service.model.dto.CreateUserRequest;
 import com.romanosadchyi.labs.user_service.model.dto.StudentDto;
 import com.romanosadchyi.labs.user_service.model.dto.TeacherDto;
 import com.romanosadchyi.labs.user_service.model.dto.UserDto;
 import com.romanosadchyi.labs.user_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllStudents());
     }
 
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
@@ -34,9 +37,19 @@ public class UserController {
         return ResponseEntity.ok(userService.getChildrenByParentId(parentId));
     }
 
+    @GetMapping("/parents")
+    public ResponseEntity<List<UserDto>> getAllParents() {
+        return ResponseEntity.ok(userService.getAllParents());
+    }
+
     @GetMapping("/teachers/{id}")
     public ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getTeacherById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest request) {
+        return ResponseEntity.ok(userService.createUser(request));
     }
 }
 
